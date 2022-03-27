@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Messaging App</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="username_or_password_incorrect">Username or password incorrect</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
