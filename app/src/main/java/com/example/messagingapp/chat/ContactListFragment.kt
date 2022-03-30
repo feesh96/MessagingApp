@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.messagingapp.R
 import com.example.messagingapp.domain.Contact
@@ -16,7 +17,7 @@ import com.example.messagingapp.domain.Contact
  */
 class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
 
-    private val viewModel: ChatViewModel by viewModels()
+    private val viewModel: ChatViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,16 +46,9 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
                 Contact("Dewey", "9733301048"),
                 Contact("Charlie", "9733301048"),
             )
-        ) { contactView -> viewModel.setActiveChat(contactView as TextView) }
-
-        subscribeToChatState()
-    }
-
-    private fun subscribeToChatState() {
-        viewModel.chatState.observe(this.viewLifecycleOwner) { chatState ->
-            when (chatState) {
-                is ChatState.ContactSelected -> // fragment transaction to chat fragment...
-            }
+        ) { contactView ->
+            viewModel.activeChat = (contactView as TextView).text.toString()
+            findNavController().navigate(R.id.action_contactListFragment_to_chatDetailFragment)
         }
     }
 }

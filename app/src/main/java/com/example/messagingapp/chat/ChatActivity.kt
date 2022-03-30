@@ -17,8 +17,11 @@ class ChatActivity : AppCompatActivity(R.layout.activity_chat) {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
+                addToBackStack("ContactListFragment")
                 add<ContactListFragment>(R.id.fragment_container_chat)
             }
         }
     }
+
+
 }

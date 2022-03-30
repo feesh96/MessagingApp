@@ -11,6 +11,6 @@ interface UserDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addUser(user: UserEntity)
 
-    @Query("SELECT * FROM user_tbl WHERE username like :username AND password like :password")
+    @Query("SELECT * FROM user_tbl WHERE username = :username AND password = :password")
     suspend fun getUser(username: String, password: String) : UserEntity?
 }

@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     }
 
     private fun subscribeObservers() {
-        viewModel.loginInfo.observe(this) { loginState ->
+        viewModel.loginState.observe(this) { loginState ->
             when (loginState) {
                 is LoginDataState.LoginSuccess -> {
                     findViewById<TextView>(R.id.tvLoginError).visibility = View.GONE
@@ -50,9 +50,11 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     private fun setupButtons() {
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
-        val username = findViewById<EditText>(R.id.etUsername).text.toString()
-        val password = findViewById<EditText>(R.id.etPassword).text.toString()
-        btnLogin.setOnClickListener { viewModel.tryLogin(username, password) }
-        btnRegister.setOnClickListener { viewModel.registerUser(username, password) }
+        btnLogin.setOnClickListener {
+            viewModel.tryLogin(findViewById<EditText>(R.id.etUsername), findViewById<EditText>(R.id.etPassword))
+        }
+        btnRegister.setOnClickListener {
+            viewModel.registerUser(findViewById<EditText>(R.id.etUsername), findViewById<EditText>(R.id.etPassword))
+        }
     }
 }

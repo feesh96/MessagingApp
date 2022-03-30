@@ -1,6 +1,7 @@
 package com.example.messagingapp.login
 
 import android.util.Log
+import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,27 +17,31 @@ class LoginViewModel @Inject constructor(
     private val repo: Repo
 ) : ViewModel() {
 
-    private val _loginInfo: MutableLiveData<LoginDataState> = MutableLiveData()
-    val loginInfo: LiveData<LoginDataState>
-        get() = _loginInfo
+    private val _loginState: MutableLiveData<LoginDataState> = MutableLiveData()
+    val loginState: LiveData<LoginDataState>
+        get() = _loginState
 
 
-    fun tryLogin(username: String, password: String) {
+    fun tryLogin(usernameView: TextView, passwordView: TextView) {
+        val username = usernameView.text.toString()
+        val password = passwordView.text.toString()
         viewModelScope.launch(Dispatchers.IO) {
             if (repo.userExists(username, password)) {
-                _loginInfo.postValue(LoginDataState.LoginSuccess(username))
+                _loginState.postValue(LoginDataState.LoginSuccess(username))
                 Log.d(this::class.simpleName, "Found user!")
             } else {
-                _loginInfo.postValue(LoginDataState.LoginFailed)
-                Log.d(this::class.simpleName, "No user found!")
+                _loginState.postValue(LoginDataState.LoginFailed)
+                Log.d(this::class.simpleName, "Username or password incorrect")
             }
         }
     }
 
-    fun registerUser(username: String, password: String) {
+    fun registerUser(usernameView: TextView, passwordView: TextView) {
+        val username = usernameView.text.toString()
+        val password = passwordView.text.toString()
         viewModelScope.launch(Dispatchers.IO) {
             repo.registerUser(username, password)
-            _loginInfo.postValue(LoginDataState.LoginSuccess(username))
+            _loginState.postValue(LoginDataState.LoginSuccess(username))
             Log.d(this::class.simpleName, "User registered!")
         }
     }
